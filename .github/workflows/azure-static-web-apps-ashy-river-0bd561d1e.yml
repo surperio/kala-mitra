@@ -24,17 +24,12 @@ jobs:
           submodules: true
           lfs: false
 
-      - name: Install OIDC Client from Core Package
-        run: npm install @actions/core@1.6.0 @actions/http-client
-        working-directory: kala-mitra-bazaar-online-main/kalabazar
-
       - name: Get Id Token
         uses: actions/github-script@v6
         id: idtoken
         with:
           script: |
-            const coredemo = require('@actions/core')
-            return await coredemo.getIDToken()
+            return await require('@actions/core').getIDToken()
           result-encoding: string
 
       - name: Build And Deploy
@@ -43,12 +38,10 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_RIVER_0BD561D1E }}
           action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          app_location: "kala-mitra-bazaar-online-main/kalabazar" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "kala-mitra-bazaar-online-main/kalabazar/dist" # Built app content directory
+          app_location: "kala-mitra-bazaar-online-main/kalabazar"
+          api_location: ""
+          output_location: "kala-mitra-bazaar-online-main/kalabazar/dist"
           github_id_token: ${{ steps.idtoken.outputs.result }}
-          ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
