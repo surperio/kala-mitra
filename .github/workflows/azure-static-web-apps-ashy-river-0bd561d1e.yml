@@ -33,6 +33,14 @@ jobs:
             return idToken
           result-encoding: string
 
+      - name: Install dependencies
+        run: npm install
+        working-directory: kala-mitra-bazaar-online-main/kalabazar
+
+      - name: Build the app
+        run: npm run build
+        working-directory: kala-mitra-bazaar-online-main/kalabazar
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
